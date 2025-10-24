@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Login from "./components/Login";
 import Accounts from "./components/Accounts";
@@ -9,6 +10,7 @@ import "./App.css";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
+  const [activeTab, setActiveTab] = useState("computers"); // tab mặc định
   const [accounts, setAccounts] = useState([]);
   const [computers, setComputers] = useState(
     Array.from({ length: 25 }, (_, i) => ({
@@ -20,7 +22,6 @@ function App() {
     }))
   );
   const [cart, setCart] = useState([]);
-  const [showMenu, setShowMenu] = useState(false);
 
   const menuItems = [
     { id: 1, name: "Mì Tôm", price: 15000, image: "/images/mitom.jpg" },
@@ -28,12 +29,13 @@ function App() {
     { id: 3, name: "Cơm Rang", price: 35000, image: "/images/comrang.jpg" },
     { id: 4, name: "Phở Bò", price: 45000, image: "/images/phobo.jpg" },
     { id: 5, name: "Coca Cola", price: 15000, image: "/images/coca.jpg" },
-    { id: 6, name: "Pepsi", price: 15000, image: "/images/pessi.jpg" },
+    { id: 6, name: "Pepsi", price: 15000, image: "/images/pepssi.jpg" },
     { id: 7, name: "Nước Suối", price: 10000, image: "/images/nuoc.jpg" },
     { id: 8, name: "Cà Phê", price: 20000, image: "/images/caphe.jpg" },
     { id: 9, name: "Sting", price: 10000, image: "/images/sting.jpg" },
   ];
 
+  // --- Đăng nhập ---
   const handleLogin = (username, password) => {
     if (username === "admin" && password === "123456") {
       setCurrentUser(username);
@@ -42,6 +44,7 @@ function App() {
     return false;
   };
 
+  // --- Đăng xuất ---
   const handleLogout = () => {
     setCurrentUser(null);
   };
@@ -55,32 +58,63 @@ function App() {
           {/* Header */}
           <header className="header-bar">
             <h2>🎮 Xin chào {currentUser}</h2>
-            <div className="header-buttons">
-              <button onClick={() => setShowMenu(!showMenu)}>
-                {showMenu ? "Ẩn Menu 🍔" : "Hiện Menu 🍔"}
-              </button>
-              <button onClick={handleLogout}>Đăng xuất</button>
-            </div>
+            <button onClick={handleLogout} className="btn btn-logout">
+              Đăng xuất
+            </button>
           </header>
 
-          {/* Nội dung */}
+          {/* Thanh điều hướng tab */}
+          <nav className="nav-tabs">
+            <button
+              className={activeTab === "accounts" ? "active" : ""}
+              onClick={() => setActiveTab("accounts")}
+            >
+              👤 Tài Khoản
+            </button>
+            <button
+              className={activeTab === "computers" ? "active" : ""}
+              onClick={() => setActiveTab("computers")}
+            >
+              💻 Máy Tính
+            </button>
+            <button
+              className={activeTab === "menu" ? "active" : ""}
+              onClick={() => setActiveTab("menu")}
+            >
+              🍕 Menu
+            </button>
+            <button
+              className={activeTab === "billing" ? "active" : ""}
+              onClick={() => setActiveTab("billing")}
+            >
+              💰 Thanh Toán
+            </button>
+          </nav>
+
+          {/* Nội dung từng tab */}
           <div className="content">
-            <div className="left-column">
-              <Computers computers={computers} setComputers={setComputers} />
+            {activeTab === "accounts" && (
               <Accounts accounts={accounts} setAccounts={setAccounts} />
+            )}
+
+            {activeTab === "computers" && (
+              <Computers computers={computers} setComputers={setComputers} />
+            )}
+
+            {activeTab === "menu" && (
+              <>
+                <Menu items={menuItems} cart={cart} setCart={setCart} />
+                <Cart cart={cart} setCart={setCart} />
+              </>
+            )}
+
+            {activeTab === "billing" && (
               <Billing
                 accounts={accounts}
                 setAccounts={setAccounts}
                 cart={cart}
                 setCart={setCart}
               />
-            </div>
-
-            {showMenu && (
-              <div className="right-column">
-                <Menu items={menuItems} cart={cart} setCart={setCart} />
-                <Cart cart={cart} setCart={setCart} />
-              </div>
             )}
           </div>
         </div>
