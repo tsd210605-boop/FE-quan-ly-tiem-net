@@ -557,3 +557,55 @@ header button:hover {
   border-radius: 10px;
   margin-bottom: 10px;
 }
+.nav-tabs {
+  display: flex;
+  justify-content: center;
+  background: #f8f9fa;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.nav-tabs button {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs button:hover {
+  background: #e0e0e0;
+}
+
+.nav-tabs button.active {
+  background: #4caf50;
+  color: white;
+}
+
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(45deg, #4caf50, #45a049);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+}
+
+.btn-logout {
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-logout:hover {
+  background: #d32f2f;
+}
